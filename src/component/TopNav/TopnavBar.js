@@ -6,8 +6,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Signup from '../Signin/Signin';
-import Signin from '../Signin/Signin';
 
 
 export default function TopnavBar() {
@@ -32,8 +30,7 @@ export default function TopnavBar() {
           <Button color="inherit">Sign in</Button>
           </Toolbar>
           </AppBar>
-          <Signup />
-          <Signin />
+   
     </Box>
   );
 }
