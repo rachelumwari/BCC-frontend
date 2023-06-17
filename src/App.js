@@ -1,17 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
-import SignUp from './component/signup';
-import SignIn from './component/signin';
-// import NavbarTop from './component/navbarTop';
+
+import Landing from "./component/Landing/Landing";
+
 
 
 
 function App() {
   return (
-    <div className="App">
-    <SignUp/>
-    <SignIn/>
-    </div>
+<Landing/>
+
+
   );
 }
 
