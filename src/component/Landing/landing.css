@@ -1,0 +1,43 @@
+/* .landing{
+} */
+  .landing-image{
+      width: 100%;
+      min-height: 90vh;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../../public/Image/peakpx.jpg);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      display: grid;
+      align-items: center;
+      gap: 1.5em;
+  }
+      .landing-text h2{
+          font-size: 1.8rem;
+          color:burlywood;
+          text-transform: uppercase;
+          text-align: center;
+          margin-top:-80px;
+      }
+      .landing-text p{
+          font-size: 0.998rem;
+          color:white;
+          margin: 0.5rem 0 1.4rem;
+          text-align: center;
+      
+      }
+      .btn{
+          padding: 15px 45px;
+          border-radius: 0.3rem;
+          border-color: #F9842C;
+          background-color: #000000;
+          color:white;
+          font-weight: 500;
+          align-items: center;
+      }
+      
+      .btn:hover{
+          background:#cccccc;
+          
+  }
+

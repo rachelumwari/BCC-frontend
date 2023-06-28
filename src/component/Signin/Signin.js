@@ -17,7 +17,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        RachelU
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -54,9 +54,11 @@ export default function SignIn() {
           <Avatar sx={{ m: 1, bgcolor: '#D21404' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign In
-          </Typography>
+          <Link to="/Signin">
+            <Typography component="h1" variant="h5">
+              Sign In
+            </Typography>
+          </Link>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -81,17 +83,19 @@ export default function SignIn() {
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
+            <Link to="/sigin">
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+            </Link>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/SignUp" variant="body2" style={{ textDecoration: "none" }}>
                   Already have an account? Sign up
                 </Link>
               </Grid>
