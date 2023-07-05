@@ -7,11 +7,10 @@
 
     .top{
         display: flex;
-        align-items: center;
-        justify-content: center;
+        justify-content: left;
         color:#F9842C;
-        padding-top: 20px;
-        
+        padding-top: -5px;
+        margin-left: 20px;
         .logo{
             font-size: 20px;
             font-weight: bold;
@@ -67,6 +66,12 @@
             }
         }
     }
-
- 
     }
+
+// #color{
+//     white,
+//     red,
+//     blue,
+//     right-blue or sky-blue,
+//     black,
+// }

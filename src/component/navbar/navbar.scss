@@ -1,0 +1,53 @@
+.topbar{
+    height: 60px;
+    border-bottom: 3px solid #E7ECEF;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: black;
+    background-color: white;
+   
+
+    .wrapper{
+        display: flex;
+        padding: 20px;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+
+        .log{
+            display: flex;
+            align-items: center;
+            border: 3px solid lightgray;
+            padding: 3px;
+            color: #00264D;
+            border-radius: 6px;
+
+            .icon{
+                color:#F9842C;
+                font-size: 23px;
+            }
+        }
+
+        .items{
+            display: flex;
+            align-items: center;
+
+            .item{
+                display: flex;
+                align-items: center;
+                margin-right: 20px;
+                position: relative;
+
+                .icon{
+                    font-size: 20px;
+                    color: #F9842C;
+                }
+
+            }
+
+
+        }
+    }
+
+}

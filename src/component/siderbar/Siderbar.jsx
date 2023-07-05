@@ -4,13 +4,13 @@ import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import SchoolIcon from '@mui/icons-material/School';
 import GroupIcon from '@mui/icons-material/Group';
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 const Siderbar = () => {
   return (
     <div className='sidebar'>
     <div className="top">
-     <h2>Dashboard</h2>
+     <h2>BCC</h2>
     </div>
     <div className="center">
         <ul>
@@ -18,33 +18,35 @@ const Siderbar = () => {
             <Link to="/dashboard" style={{textDecoration:"none"}}>
             <li>
             <DashboardCustomizeIcon  className="icon" />
-                <span>Home</span>
+                <span>Dashboard</span>
             </li>
             </Link>
             <Link to="/user" style={{textDecoration:"none"}}>
             <li>
             <PersonIcon className="icon" />
-                <span>User</span>
+                <span>Users</span>
             </li>
             </Link>
-            <Link to="/commitee" style={{textDecoration:"none"}}>
+            <Link to="/teacher" style={{textDecoration:"none"}}>
             <li>
                 <GroupIcon className="icon"/>
-                <span>Commitee</span>
+                <span>Teacher</span>
             </li>
             </Link>
-            <Link to="/schools" style={{textDecoration:"none"}}>
+            <Link to="/student" style={{textDecoration:"none"}}>
             <li>
-            <SchoolIcon className="icon"/>
-            <span>Schools</span>
+            <GroupIcon className="icon"/>
+            <span>Student</span>
         </li>
         </Link>
-        <Link to="/family" style={{textDecoration:"none"}}>
+            <li>
+            <SchoolIcon className="icon"/>
+            <span>Assignment</span>
+        </li>
         <li>
         <FamilyRestroomIcon className="icon"/>
-        <span>Families</span>
+        <span>Course</span>
     </li>
-    </Link>
         </ul>
     </div>
     </div>

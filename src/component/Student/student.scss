@@ -1,0 +1,15 @@
+.home{
+    display: flex;
+
+    .dashbordNav{
+     flex: 5;
+
+        .user-table{
+            padding: 20px;
+
+            .table{
+                margin-top:20px;
+            }
+        }
+    }
+}
