@@ -1,8 +1,16 @@
 .container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: auto;
+    width: 80%;
+    min-width: 400px;
+}
 
+.loginForm{
+    width: 350px;
+}
+
+.text-field{
+    border: solid rgb(61, 60, 60) 1px !important;
+    border-radius: 3px;
 }
 
 .btn{

@@ -1,5 +1,5 @@
 import './dashboard.scss';
-import Siderbar from '../../component/siderbar/siderbar';
+import Siderbar from '../../component/siderbar/Siderbar';
 import Navbar from '../../component/navbar/Navbar';
 const Dashborad = () => {
   return (
