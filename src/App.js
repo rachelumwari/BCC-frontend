@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard/Dashborad";
 import Users from "../src/component/Users/User";
 import Teacher from "./component/Teacher/Teacher";
 import Student from "./component/Student/Student";
+import Layout from "./component/layout/appLayout";
 
 function App() {
   return (
