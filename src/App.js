@@ -8,6 +8,7 @@ import Users from "../src/component/Users/User";
 import Teacher from "./component/Teacher/Teacher";
 import Student from "./component/Student/Student";
 import Layout from "./component/layout/appLayout";
+import AddNewUser from "./pages/Dashboard/addNewUser";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/user" element={<Users/>} />
         <Route path="/teacher" element={<Teacher/>} />
         <Route path="/student" element={<Student/>} />
+        <Route path="/addNewUser" element={<AddNewUser/>} />
       </Routes>
     </BrowserRouter>
 
