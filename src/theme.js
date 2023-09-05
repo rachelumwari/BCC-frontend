@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#101828",
+      main: "#fff",
     },
     secondary: {
       main: "#8b2923",
@@ -13,7 +13,13 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Open Sans,sans-serif;",
+    fontFamily: "Open Sans,sans-serif",
+    sideBarVariant: {
+      font: "16px Inter,sans-serif;",
+      color: "#000000DE",
+      fontSize: "1rem",
+      fontWeight: 500
+    },
   },
 });
 

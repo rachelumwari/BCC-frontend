@@ -1,35 +1,28 @@
 import * as React from "react";
-// import Avatar from '@mui/material/Avatar';
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./singin.css";
 import LoginForm from "./loginForm";
+// import Link from "@mui/material/Link";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        RachelU
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+// function Copyright(props) {
+//   return (
+//     <Typography
+//       variant="body2"
+//       color="text.secondary"
+//       align="center"
+//       {...props}
+//     >
+//       {"Copyright © "}
+//       <Link color="inherit" href="https://mui.com/">
+//         RachelU
+//       </Link>{" "}
+//       {new Date().getFullYear()}
+//       {"."}
+//     </Typography>
+//   );
+// }
 
 // export default function SignIn() {
 //   const handleSubmit = (event) => {
@@ -126,26 +119,29 @@ function Copyright(props) {
 export default function SignIn() {
   
   return (
-    <div className="container">
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        sx={{ minHeight: "60vh" }}
-      >
-        <Grid item>
-          <Typography component="h1" variant="h4">
-            Log in to your account
-          </Typography>
-          <Typography component="small" color="fentColor" variant="subtitle1">
-            Welcome back! Please enter your details.
-          </Typography>
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+
+      <div className="container">
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ minHeight: "60vh" }}
+        >
+          <Grid item>
+            <Typography component="h1" variant="h4">
+              Log in to your account
+            </Typography>
+            <Typography component="small" color="fentColor" variant="subtitle1">
+              Welcome back! Please enter your details.
+            </Typography>
+          </Grid>
+          <Grid item>
+            <LoginForm />
+          </Grid>
         </Grid>
-        <Grid item>
-          <LoginForm />
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </Box>
   );
 }
