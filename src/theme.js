@@ -8,6 +8,9 @@ const theme = createTheme({
     secondary: {
       main: "#8b2923",
     },
+    tertiary: {
+      main: "#010869",
+    },
     fentColor: {
       main: "#667085",
     },
@@ -18,7 +21,7 @@ const theme = createTheme({
       font: "16px Inter,sans-serif;",
       color: "#000000DE",
       fontSize: "1rem",
-      fontWeight: 500
+      fontWeight: 500,
     },
   },
 });

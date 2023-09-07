@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import SignIn from "../component/Signin/Signin";
+import SignIn from "../pages/Signin/Signin";
 import Layout from "../component/siderbar/SiderbarDrawer";
-import AddNewUser from "../pages/Dashboard/addNewUser";
+import UserList from "../pages/Users/userList";
 
 const AppRoutes = () => {
   return (
@@ -12,17 +12,24 @@ const AppRoutes = () => {
         path="/"
         element={
           <Layout>
-            <AddNewUser />
+            <UserList />
           </Layout>
         }
       />
       <Route
         exact
-        path="/singin"
+        path="/users"
         element={
           <Layout>
-            <SignIn />
+            <UserList />
           </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/l"
+        element={
+          <SignIn />
         }
       />
     </Routes>

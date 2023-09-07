@@ -1,19 +1,19 @@
-import { createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    openDrawer: false
-}
+  openDrawer: true,
+};
 
 export const navBarSlice = createSlice({
   name: "navbar",
   initialState,
-  reducers:{
-    manageDrawer:(state,action)=>{
-        state.openDrawer = action.payload
-    }
-  }
+  reducers: {
+    manageDrawer: (state, action) => {
+      state.openDrawer = action.payload;
+    },
+  },
 });
 
-export const {manageDrawer} = navBarSlice.actions
+export const { manageDrawer } = navBarSlice.actions;
 
 export default navBarSlice.reducer;
