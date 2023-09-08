@@ -1,6 +1,4 @@
 import './student.scss';
-import Siderbar from '../Siderbar/Siderbar';
-import Navbar from '../navbar/Navbar';
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -40,9 +38,7 @@ const Student = () => {
     };
   return (
     <div className='home'>
-        <Siderbar/>
             <div className='dashbordNav'>
-                <Navbar/>
                 <div className='user-table'>
                 <Button variant="outlined" onClick={handleClickOpen}>
                 Enter new student
