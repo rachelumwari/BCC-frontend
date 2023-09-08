@@ -12,12 +12,13 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 export default function CustomTable(props) {
-  const { columns, rows, editFunction, deleteFunction } = props;
+  const { columns, rows, editFunction, deleteFunction, linkTo } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  let navigate = useNavigate();
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
   };
@@ -26,10 +27,10 @@ export default function CustomTable(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  
+
   return (
     <>
-      <TableContainer >
+      <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -49,7 +50,17 @@ export default function CustomTable(props) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.code}
+                    onClick={
+                      linkTo
+                        ? () => navigate(`${linkTo}/${row.id}`)
+                        : navigate(`#`)
+                    }
+                  >
                     {columns.map((column) => {
                       if (column.field === "action") {
                         return (

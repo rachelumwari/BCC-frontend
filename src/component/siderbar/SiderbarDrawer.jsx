@@ -18,7 +18,7 @@ import AppBar from "../navbar/NavigationBar";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const drawerWidth = 160;
+const drawerWidth = 170;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -75,32 +75,32 @@ export default function AppDrawer(props) {
   const sideBarIconsBuilder = () => {
     let sideBarIcons = [
       {
-        title: "Home",
+        title: "HOME",
         icon: <HomeIcon color="secondary" />,
         links: "/",
       },
       {
-        title: "Profile",
+        title: "PROFILE",
         icon: <PersonIcon color="secondary" />,
         links: "/profile",
       },
       {
-        title: "Courses",
+        title: "COURSES",
         icon: <LibraryBooksIcon color="secondary" />,
         links: "/courses",
       },
       {
-        title: "Student",
+        title: "STUDENT",
         icon: <GroupsIcon color="secondary" />,
         links: "/students",
       },
       {
-        title: "Users",
+        title: "USERS",
         icon: <PeopleIcon color="secondary" />,
         links: "/users",
       },
       {
-        title: "Analytics",
+        title: "ANALITICS",
         icon: <AnalyticsIcon color="secondary" />,
         links: "/statistics",
       },

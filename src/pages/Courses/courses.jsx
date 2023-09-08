@@ -14,58 +14,46 @@ import {
   Dialog,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import AddUserForm from "./addUserForm";
+import AddCourseForm from "./addCourseForm";
 import { useSelector, useDispatch } from "react-redux";
+
 import {
-  addUsers,
-  updateUserData,
+  addCourse,
+  deleteCourse,
+  updateCourse,
+  updateCourseData,
   initialState,
-  updateUsers,
-  deleteUser,
-} from "../../features/users/userSlice";
+} from "../../features/courses/courseSlice";
 import Table from "../../component/Tables/Table";
 
-export default function UserList() {
+export default function Courses() {
   const [openModal, setOpenModal] = useState(false);
   const [update, setUpdateModal] = useState(false);
   const [updateIndex, setUpdateIndex] = useState(null);
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.users.userData);
-  const users = useSelector((state) => state.users.users);
+  const courseData = useSelector((state) => state.courses.courseData);
+  let courses = useSelector((state) => state.courses.courses);
+  courses = courses.map((course) => {
+    return { ...course, teacherName: course.teacher.name };
+  });
+  
+
   const columns = [
     {
-      field: "firstName",
-      label: "First Name",
+      field: "name",
+      label: "Name",
       minWidth: 130,
       align: "left",
     },
     {
-      field: "lastName",
-      label: "Last Name",
+      field: "teacherName",
+      label: "Teacher Name",
       minWidth: 130,
       align: "left",
     },
     {
-      field: "email",
-      label: "Email",
-      minWidth: 130,
-      align: "left",
-    },
-    {
-      field: "phoneNumber",
-      label: "Phone Number",
-      minWidth: 130,
-      align: "left",
-    },
-    {
-      field: "role",
-      label: "Role",
-      minWidth: 130,
-      align: "left",
-    },
-    {
-      field: "gender",
-      label: "Gender",
+      field: "students",
+      label: "Students",
       minWidth: 130,
       align: "left",
     },
@@ -77,7 +65,7 @@ export default function UserList() {
     },
   ];
   const handleClose = () => {
-    dispatch(updateUserData(initialState.userData));
+    dispatch(updateCourseData(initialState.courseData));
     setOpenModal(false);
   };
 
@@ -86,28 +74,27 @@ export default function UserList() {
   };
 
   const handleSaveUser = () => {
-    dispatch(addUsers(userData));
-    dispatch(updateUserData(initialState.userData));
+    dispatch(addCourse(courseData));
+    dispatch(updateCourseData(initialState.courseData));
     handleClose();
   };
 
-  const handleUserEdit = (e) => {
-    const userIndex = e.currentTarget.id;
-    setUpdateIndex(userIndex);
-    dispatch(updateUserData(users[userIndex]));
+  const handleCourseEdit = (e) => {
+    const courseIndex = e.currentTarget.id;
+    setUpdateIndex(courseIndex);
+    dispatch(updateCourseData(courses[courseIndex]));
     handleModalOpen();
     setUpdateModal(true);
   };
 
   const handleDeleteEdit = (e) => {
-    const userIndex = e.currentTarget.id;
-    console.log(userIndex);
-    dispatch(deleteUser(userIndex));
+    const courseIndex = e.currentTarget.id;
+    dispatch(deleteCourse(courseIndex));
   };
 
   const handleUpdate = () => {
-    dispatch(updateUsers({ index: updateIndex, body: userData }));
-    dispatch(updateUserData(initialState.userData));
+    dispatch(updateCourse({ index: updateIndex, body: courseData }));
+    dispatch(updateCourseData(initialState.courseData));
     handleClose();
     setUpdateIndex(null);
     setUpdateModal(false);
@@ -117,12 +104,12 @@ export default function UserList() {
     <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
       <Dialog open={openModal}>
         {update ? (
-          <DialogTitle align="center">UPDATE USER</DialogTitle>
+          <DialogTitle align="center">UPDATE COURSE</DialogTitle>
         ) : (
-          <DialogTitle align="center">ADD NEW USER</DialogTitle>
+          <DialogTitle align="center">ADD NEW COURSE</DialogTitle>
         )}
         <DialogContent>
-          <AddUserForm />
+          <AddCourseForm />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="contained" color="secondary">
@@ -146,7 +133,7 @@ export default function UserList() {
         component="div"
         sx={{ padding: "15px" }}
       >
-        USERS
+        COURSES
       </Typography>
       <Divider sx={{ marginBottom: 1 }} />
       <Box height={40}>
@@ -162,7 +149,7 @@ export default function UserList() {
                 color="info"
                 {...params}
                 size="small"
-                label="Fielter Users By Role"
+                label="Fielter Course"
               />
             )}
           />
@@ -177,7 +164,7 @@ export default function UserList() {
             color="secondary"
             onClick={handleModalOpen}
           >
-            Add new user
+            Add course
           </Button>
         </Stack>
       </Box>
@@ -185,9 +172,10 @@ export default function UserList() {
       <Box>
         <Table
           columns={columns}
-          rows={users}
-          editFunction={handleUserEdit}
+          rows={courses}
+          editFunction={handleCourseEdit}
           deleteFunction={handleDeleteEdit}
+          // linkTo="/users"
         />
       </Box>
     </Paper>

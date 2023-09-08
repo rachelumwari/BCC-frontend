@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import SignIn from "../pages/Signin/Signin";
 import Layout from "../component/siderbar/SiderbarDrawer";
 import UserList from "../pages/Users/userList";
+import Courses from "../pages/Courses/courses";
 
 const AppRoutes = () => {
   return (
@@ -12,10 +13,19 @@ const AppRoutes = () => {
         path="/"
         element={
           <Layout>
-            <UserList />
+            <Courses />
           </Layout>
         }
       />
+      {/* <Route
+        exact
+        path="/courses"
+        element={
+          <Layout>
+            <Courses />
+          </Layout>
+        }
+      /> */}
       <Route
         exact
         path="/users"
@@ -25,13 +35,7 @@ const AppRoutes = () => {
           </Layout>
         }
       />
-      <Route
-        exact
-        path="/l"
-        element={
-          <SignIn />
-        }
-      />
+      <Route exact path="/l" element={<SignIn />} />
     </Routes>
   );
 };
