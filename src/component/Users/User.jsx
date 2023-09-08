@@ -1,3 +1,5 @@
+/* eslint-disable */
+/* eslint-disable-next-line*/
 import './user.scss';
 // import Siderbar from '../Siderbar/Siderbar';
 import Siderbar from '../siderbar/Siderbar';

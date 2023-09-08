@@ -3,7 +3,8 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import "./singin.css";
+
+import "./signup.css";
 import {
   FormControl,
   IconButton,
@@ -32,50 +33,21 @@ export default function LoginForm() {
   };
   return (
     <div className="loginForm">
-      {/* <Grid
-        container
-        spacing={0}
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      > */}
+   
       <Box component="form" noValidate sx={{ mt: 3 }}>
         <Grid container justifyContent="center" alignItems="center" spacing={2}>
           <Grid item xs={12}>
             <TextField
               required
               fullWidth
-              //   className="text-field"
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="email"
+              id="userName"
+              label="User Name"
+              name="userName"
+              autoComplete="userName"
             />
           </Grid>
           <Grid item xs={12}>
-            {/* <FormControl variant="outlined">
-              <InputLabel required htmlFor="password-field">
-                Password
-              </InputLabel>
-              <OutlinedInput
-                id="password-field"
-                fullWidth
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-              />
-            </FormControl> */}
+           
             <TextField
               required
               fullWidth
@@ -86,6 +58,30 @@ export default function LoginForm() {
               autoComplete="email"
             />
           </Grid>
+          <Grid item xs={12}>
+           
+          <TextField
+            required
+            fullWidth
+            type="dob"
+            id="dob"
+            label="DOB"
+            name="dob"
+            autoComplete="dob"
+          />
+        </Grid>
+        <Grid item xs={12}>
+           
+        <TextField
+          required
+          fullWidth
+          type="churchOccupation"
+          id="churchOccupation"
+          label="ChurchOccupation"
+          name="churchOccupation"
+          autoComplete="churchOccupation"
+        />
+      </Grid>
           <Grid item xs={12}>
             <Button
               type="submit"

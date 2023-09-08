@@ -1,0 +1,10 @@
+.actions-cell {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon-group {
+    display: flex;
+    gap: 8px; /* Adjust the spacing between icons */
+  }
+  

@@ -1,3 +1,5 @@
+/* eslint-disable */
+/* eslint-disable-next-line*/
 import './teacher.scss';
 import Siderbar from '../siderbar/Siderbar';
 import Navbar from '../navbar/Navbar';

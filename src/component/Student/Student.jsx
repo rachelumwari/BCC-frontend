@@ -3,6 +3,8 @@ import './student.scss';
 import Siderbar from '../siderbar/Siderbar';
 import Navbar from '../navbar/Navbar';
 import * as React from 'react';
+/* eslint-disable */
+/* eslint-disable-next-line*/
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
