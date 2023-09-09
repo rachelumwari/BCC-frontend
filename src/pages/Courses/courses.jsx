@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect } from "react";
 import {
   Autocomplete,
   Box,
@@ -18,29 +18,43 @@ import AddCourseForm from "./addCourseForm";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  addCourse,
-  deleteCourse,
-  updateCourse,
-  updateCourseData,
-  initialState,
+  getAllCourses,
+  getCoursesById,
+  deleteCourseById,
+  updateCourseById,
+  addCourseUser,
+  updateEditState,
+  updateDialogOpen,
 } from "../../features/courses/courseSlice";
 import Table from "../../component/Tables/Table";
+import PageLoader from "../../component/Loader/pageLoader";
 
 export default function Courses() {
-  const [openModal, setOpenModal] = useState(false);
-  const [update, setUpdateModal] = useState(false);
-  const [updateIndex, setUpdateIndex] = useState(null);
   const dispatch = useDispatch();
-  const courseData = useSelector((state) => state.courses.courseData);
+  const { courseData, status, editing, isDialogOpen } = useSelector(
+    (state) => state.courses
+  );
   let courses = useSelector((state) => state.courses.courses);
   courses = courses.map((course) => {
-    return { ...course, teacherName: course.teacher.name };
+    if (course.teacher) {
+      return {
+        ...course,
+        teacherName: `${course.teacher.firstName} ${course.teacher.lastName}`,
+      };
+    } else {
+      return { ...course, teacherName: "-" };
+    }
   });
-  
+
+  useEffect(() => {
+    if (status === "idle" || status === "done") {
+      dispatch(getAllCourses());
+    }
+  }, [courses, dispatch, status]);
 
   const columns = [
     {
-      field: "name",
+      field: "courseName",
       label: "Name",
       minWidth: 130,
       align: "left",
@@ -52,7 +66,7 @@ export default function Courses() {
       align: "left",
     },
     {
-      field: "students",
+      field: "studentCount",
       label: "Students",
       minWidth: 130,
       align: "left",
@@ -64,46 +78,37 @@ export default function Courses() {
       align: "left",
     },
   ];
+
   const handleClose = () => {
-    dispatch(updateCourseData(initialState.courseData));
-    setOpenModal(false);
+    dispatch(updateEditState(false));
   };
 
   const handleModalOpen = () => {
-    setOpenModal(true);
+    dispatch(updateDialogOpen(true));
   };
 
   const handleSaveUser = () => {
-    dispatch(addCourse(courseData));
-    dispatch(updateCourseData(initialState.courseData));
-    handleClose();
+    dispatch(addCourseUser(courseData));
   };
 
   const handleCourseEdit = (e) => {
-    const courseIndex = e.currentTarget.id;
-    setUpdateIndex(courseIndex);
-    dispatch(updateCourseData(courses[courseIndex]));
-    handleModalOpen();
-    setUpdateModal(true);
+    const courseId = e.currentTarget.id;
+    localStorage.setItem("courseUpdateId", courseId);
+    dispatch(getCoursesById(courseId));
   };
 
   const handleDeleteEdit = (e) => {
-    const courseIndex = e.currentTarget.id;
-    dispatch(deleteCourse(courseIndex));
+    const courseId = e.currentTarget.id;
+    dispatch(deleteCourseById(courseId));
   };
 
   const handleUpdate = () => {
-    dispatch(updateCourse({ index: updateIndex, body: courseData }));
-    dispatch(updateCourseData(initialState.courseData));
-    handleClose();
-    setUpdateIndex(null);
-    setUpdateModal(false);
+    dispatch(updateCourseById(courseData));
   };
-
   return (
     <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
-      <Dialog open={openModal}>
-        {update ? (
+      <Dialog open={isDialogOpen}>
+        {editing ? (
           <DialogTitle align="center">UPDATE COURSE</DialogTitle>
         ) : (
           <DialogTitle align="center">ADD NEW COURSE</DialogTitle>
@@ -115,7 +120,7 @@ export default function Courses() {
           <Button onClick={handleClose} variant="contained" color="secondary">
             Cancel
           </Button>
-          {update ? (
+          {editing ? (
             <Button onClick={handleUpdate} variant="contained" color="info">
               Update
             </Button>
@@ -169,15 +174,19 @@ export default function Courses() {
         </Stack>
       </Box>
       <Divider sx={{ marginTop: 1 }} />
-      <Box>
-        <Table
-          columns={columns}
-          rows={courses}
-          editFunction={handleCourseEdit}
-          deleteFunction={handleDeleteEdit}
-          // linkTo="/users"
-        />
-      </Box>
+      {status === "loading" ? (
+        <PageLoader open={true} />
+      ) : (
+        <Box>
+          <Table
+            columns={columns}
+            rows={courses}
+            editFunction={handleCourseEdit}
+            deleteFunction={handleDeleteEdit}
+            // linkTo="/users"
+          />
+        </Box>
+      )}
     </Paper>
   );
 }

@@ -4,6 +4,7 @@ import SignIn from "../pages/Signin/Signin";
 import Layout from "../component/siderbar/SiderbarDrawer";
 import UserList from "../pages/Users/userList";
 import Courses from "../pages/Courses/courses";
+import ManagementCourses from "../pages/Courses/courseManagementPage";
 
 const AppRoutes = () => {
   return (
@@ -13,11 +14,11 @@ const AppRoutes = () => {
         path="/"
         element={
           <Layout>
-            <Courses />
+            <ManagementCourses />
           </Layout>
         }
       />
-      {/* <Route
+      <Route
         exact
         path="/courses"
         element={
@@ -25,7 +26,7 @@ const AppRoutes = () => {
             <Courses />
           </Layout>
         }
-      /> */}
+      />
       <Route
         exact
         path="/users"

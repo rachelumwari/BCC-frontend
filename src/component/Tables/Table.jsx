@@ -70,13 +70,13 @@ export default function CustomTable(props) {
                           >
                             <Stack spacing={2} direction="row">
                               <IconButton
-                                id={index}
+                                id={row.id}
                                 key={index}
                                 onClick={editFunction}
                               >
                                 <EditIcon color="info" />
                               </IconButton>
-                              <IconButton id={index} onClick={deleteFunction}>
+                              <IconButton id={row.id} onClick={deleteFunction}>
                                 <DeleteIcon color="secondary" />
                               </IconButton>
                             </Stack>
@@ -88,7 +88,7 @@ export default function CustomTable(props) {
                           key={`${column.field}-${index}`}
                           align={column.align ? column.align : "right"}
                         >
-                          {row[column.field]}
+                          {String(row[column.field])}
                         </TableCell>
                       );
                     })}

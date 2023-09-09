@@ -1,24 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+const BASE_URL = `${process.env.REACT_APP_BACKEND_URL}user/teacher/`;
+
+export const getAllTeacher = createAsyncThunk("getAllTeacher", async () => {
+  const response = await fetch(BASE_URL, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  return response.json();
+});
 
 export const initialState = {
-  teachers: [
-    {
-      id: "1",
-      name: "Blaise",
-    },
-    {
-      id: "2",
-      name: "Rachel",
-    },
-    {
-      id: "3",
-      name: "Yvan",
-    },
-    {
-      id: "4",
-      name: "Manager",
-    },
-  ],
+  teachers: [],
+  message: "",
+  status: "idle",
+  error: null,
 };
 
 export const teacherSlice = createSlice({
@@ -44,6 +42,25 @@ export const teacherSlice = createSlice({
       state.users = users;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getAllTeacher.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(getAllTeacher.fulfilled, (state, action) => {
+      if (action.payload.status === 200) {
+        state.status = "succeeded";
+        state.message = action.payload.message;
+        state.teachers = action.payload.data;
+      } else {
+        state.status = "failed";
+        state.message = action.payload.message;
+      }
+    });
+    builder.addCase(getAllTeacher.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    });
+  }
 });
 
 export const { updateTeacherData, addTeacher, updateTeacher, deleteTeacher } =

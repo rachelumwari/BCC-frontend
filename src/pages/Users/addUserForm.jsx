@@ -6,42 +6,17 @@ import {
   FormControl,
   MenuItem,
 } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateUserData } from "../../features/users/userSlice";
 
-export default function AddUserForm() {
+export default function AddUserForm(props) {
+  const { userData } = props;
   const userGender = ["Male", "Female"];
   const userRoles = ["Admin", "Teacher", "Student"];
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.users.userData);
 
-  const handleFirstNameChange = (e) => {
-    const userBody = { ...userData, firstName: e.target.value };
-    dispatch(updateUserData(userBody));
-  };
-
-  const handleLastNameChange = (e) => {
-    const userBody = { ...userData, lastName: e.target.value };
-    dispatch(updateUserData(userBody));
-  };
-
-  const handleEmailChange = (e) => {
-    const userBody = { ...userData, email: e.target.value };
-    dispatch(updateUserData(userBody));
-  };
-
-  const handlePhoneNumberChange = (e) => {
-    const userBody = { ...userData, phoneNumber: e.target.value };
-    dispatch(updateUserData(userBody));
-  };
-
-  const handleGenderChange = (e) => {
-    const userBody = { ...userData, gender: e.target.value };
-    dispatch(updateUserData(userBody));
-  };
-
-  const handleroleChange = (e) => {
-    const userBody = { ...userData, role: e.target.value };
+  const handleInputChange = (e) => {
+    const userBody = { ...userData, [e.target.name]: e.target.value };
     dispatch(updateUserData(userBody));
   };
 
@@ -51,10 +26,11 @@ export default function AddUserForm() {
         autoFocus
         margin="dense"
         id="firstName"
+        name="firstName"
         label="First Name"
         type="text"
         value={userData.firstName}
-        onChange={handleFirstNameChange}
+        onChange={handleInputChange}
         color="info"
         fullWidth
       />
@@ -62,30 +38,44 @@ export default function AddUserForm() {
         autoFocus
         margin="dense"
         id="lastName"
+        name="lastName"
         label="Last Name"
         type="text"
         value={userData.lastName}
-        onChange={handleLastNameChange}
+        onChange={handleInputChange}
         color="info"
         fullWidth
       />
       <TextField
         margin="dense"
         id="email"
+        name="email"
         label="Email"
         type="email"
         value={userData.email}
-        onChange={handleEmailChange}
+        onChange={handleInputChange}
         color="info"
         fullWidth
       />
       <TextField
         margin="dense"
         id="phoneNumber"
+        name="phoneNumber"
         label="Phone Number"
         type="tel"
         value={userData.phoneNumber}
-        onChange={handlePhoneNumberChange}
+        onChange={handleInputChange}
+        color="info"
+        fullWidth
+      />
+      <TextField
+        margin="dense"
+        id="church"
+        name="church"
+        label="Church"
+        type="text"
+        value={userData.church}
+        onChange={handleInputChange}
         color="info"
         fullWidth
       />
@@ -96,7 +86,8 @@ export default function AddUserForm() {
         <Select
           labelId="user-gender-simple-select-outlined-label"
           id="user-gender-simple-select-outlined"
-          onChange={handleGenderChange}
+          name="gender"
+          onChange={handleInputChange}
           value={userData.gender}
           label="Gender"
           color="info"
@@ -115,7 +106,8 @@ export default function AddUserForm() {
         <Select
           labelId="user-type-simple-select-outlined-label"
           id="user-type-simple-select-outlined"
-          onChange={handleroleChange}
+          name="role"
+          onChange={handleInputChange}
           value={userData.role}
           label="Role"
           color="info"

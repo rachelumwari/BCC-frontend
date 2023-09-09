@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect } from "react";
 import {
   Autocomplete,
   Box,
@@ -17,32 +17,41 @@ import AddIcon from "@mui/icons-material/Add";
 import AddUserForm from "./addUserForm";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  addUsers,
-  updateUserData,
-  initialState,
-  updateUsers,
-  deleteUser,
+  getUsers,
+  getAllUsers,
+  getAllUsersStatus,
+  updateEditState,
+  getUserById,
+  deleteUserById,
+  updateUserById,
+  addNewUser,
+  updateDialogOpen,
 } from "../../features/users/userSlice";
 import Table from "../../component/Tables/Table";
-
+import PageLoader from "../../component/Loader/pageLoader";
 export default function UserList() {
-  const [openModal, setOpenModal] = useState(false);
-  const [update, setUpdateModal] = useState(false);
-  const [updateIndex, setUpdateIndex] = useState(null);
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.users.userData);
-  const users = useSelector((state) => state.users.users);
+  const { userData, editing, isDialogOpen } = useSelector(
+    (state) => state.users
+  );
+  const users = useSelector(getUsers);
+  const status = useSelector(getAllUsersStatus);
+
+  useEffect(() => {
+    if (status === "idle" || status === "done") dispatch(getAllUsers());
+  }, [users, dispatch, status]);
+
   const columns = [
     {
       field: "firstName",
       label: "First Name",
-      minWidth: 130,
+      minWidth: 100,
       align: "left",
     },
     {
       field: "lastName",
       label: "Last Name",
-      minWidth: 130,
+      minWidth: 100,
       align: "left",
     },
     {
@@ -54,81 +63,83 @@ export default function UserList() {
     {
       field: "phoneNumber",
       label: "Phone Number",
-      minWidth: 130,
+      minWidth: 110,
       align: "left",
     },
     {
       field: "role",
       label: "Role",
-      minWidth: 130,
+      minWidth: 90,
+      align: "left",
+    },
+    {
+      field: "church",
+      label: "Church",
+      minWidth: 110,
       align: "left",
     },
     {
       field: "gender",
       label: "Gender",
-      minWidth: 130,
+      minWidth: 90,
+      align: "left",
+    },
+    {
+      field: "status",
+      label: "Active",
+      minWidth: 90,
       align: "left",
     },
     {
       field: "action",
       label: "Action",
       minWidth: 130,
-      align: "left",
+      align: "center",
     },
   ];
   const handleClose = () => {
-    dispatch(updateUserData(initialState.userData));
-    setOpenModal(false);
+    dispatch(updateEditState(false));
   };
 
   const handleModalOpen = () => {
-    setOpenModal(true);
+    dispatch(updateDialogOpen(true));
   };
 
   const handleSaveUser = () => {
-    dispatch(addUsers(userData));
-    dispatch(updateUserData(initialState.userData));
-    handleClose();
+    dispatch(addNewUser(userData));
   };
 
   const handleUserEdit = (e) => {
-    const userIndex = e.currentTarget.id;
-    setUpdateIndex(userIndex);
-    dispatch(updateUserData(users[userIndex]));
-    handleModalOpen();
-    setUpdateModal(true);
+    const userId = e.currentTarget.id;
+    localStorage.setItem("userUpdateId", userId);
+    dispatch(getUserById(userId));
   };
 
   const handleDeleteEdit = (e) => {
-    const userIndex = e.currentTarget.id;
-    console.log(userIndex);
-    dispatch(deleteUser(userIndex));
+    const userId = e.currentTarget.id;
+    dispatch(deleteUserById(userId));
   };
 
   const handleUpdate = () => {
-    dispatch(updateUsers({ index: updateIndex, body: userData }));
-    dispatch(updateUserData(initialState.userData));
-    handleClose();
-    setUpdateIndex(null);
-    setUpdateModal(false);
+    dispatch(updateUserById(userData));
   };
 
   return (
     <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
-      <Dialog open={openModal}>
-        {update ? (
+      <Dialog open={isDialogOpen}>
+        {editing ? (
           <DialogTitle align="center">UPDATE USER</DialogTitle>
         ) : (
           <DialogTitle align="center">ADD NEW USER</DialogTitle>
         )}
         <DialogContent>
-          <AddUserForm />
+          <AddUserForm userData={userData} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="contained" color="secondary">
             Cancel
           </Button>
-          {update ? (
+          {editing ? (
             <Button onClick={handleUpdate} variant="contained" color="info">
               Update
             </Button>
@@ -182,14 +193,18 @@ export default function UserList() {
         </Stack>
       </Box>
       <Divider sx={{ marginTop: 1 }} />
-      <Box>
-        <Table
-          columns={columns}
-          rows={users}
-          editFunction={handleUserEdit}
-          deleteFunction={handleDeleteEdit}
-        />
-      </Box>
+      {status === "loading" ? (
+        <PageLoader open={true} />
+      ) : (
+        <Box>
+          <Table
+            columns={columns}
+            rows={users}
+            editFunction={handleUserEdit}
+            deleteFunction={handleDeleteEdit}
+          />
+        </Box>
+      )}
     </Paper>
   );
 }
