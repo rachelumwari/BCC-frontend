@@ -14,7 +14,7 @@ import {
   Dialog,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import AddUserForm from "./addStudentForm";
+import AddCourseForm from "./addCourseForm";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getUsers,
@@ -30,7 +30,7 @@ import {
 import Table from "../../component/Tables/Table";
 import PageLoader from "../../component/Loader/pageLoader";
 
-export default function CourseStudents() {
+export default function CourseAssignments() {
   const dispatch = useDispatch();
   const { userData, editing, isDialogOpen } = useSelector(
     (state) => state.users
@@ -44,33 +44,21 @@ export default function CourseStudents() {
 
   const columns = [
     {
-      field: "firstName",
-      label: "First Name",
+      field: "name",
+      label: "Title",
+      minWidth: 150,
+      align: "left",
+    },
+    {
+      field: "marks",
+      label: "Total Marks",
       minWidth: 130,
       align: "left",
     },
     {
-      field: "lastName",
-      label: "Last Name",
-      minWidth: 100,
-      align: "left",
-    },
-    {
-      field: "email",
-      label: "Email",
+      field: "open",
+      label: "Open",
       minWidth: 130,
-      align: "left",
-    },
-    {
-      field: "phoneNumber",
-      label: "Phone Number",
-      minWidth: 110,
-      align: "left",
-    },
-    {
-      field: "gender",
-      label: "Gender",
-      minWidth: 90,
       align: "left",
     },
     {
@@ -110,10 +98,9 @@ export default function CourseStudents() {
   return (
     <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
       <Dialog open={isDialogOpen}>
-        
         <DialogTitle align="center">ADD STUDENT</DialogTitle>
         <DialogContent>
-          <AddUserForm userData={userData} />
+          <AddCourseForm userData={userData} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="contained" color="secondary">
@@ -137,7 +124,7 @@ export default function CourseStudents() {
         component="div"
         sx={{ padding: "15px" }}
       >
-        STUDENTS
+        ASSIGNMENTS
       </Typography>
       <Divider sx={{ marginBottom: 1 }} />
       <Box height={40}>
@@ -168,7 +155,7 @@ export default function CourseStudents() {
             color="secondary"
             onClick={handleModalOpen}
           >
-            Add new student
+            ADD NEW ASSIGNMENT
           </Button>
         </Stack>
       </Box>

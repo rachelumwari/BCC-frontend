@@ -24,6 +24,10 @@ import {
   initialState,
 } from "../../features/courses/courseSlice";
 import Table from "../../component/Tables/Table";
+import CreateQuestionPage from "../../component/Quetions/questions";
+import StudentTestPage from "../../component/Quetions/displayQuesitons";
+import CourseStudents from "../Students/courseStudent";
+import CourseAssignments from "./courseAssigment";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,7 +42,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -52,6 +56,36 @@ function a11yProps(index) {
   };
 }
 
+const questions = [
+  {
+    questionContent: "What is the capital of France?",
+    options: [
+      { id: "a", content: "Paris", isCorrect: true },
+      { id: "b", content: "London", isCorrect: false },
+      { id: "c", content: "Berlin", isCorrect: false },
+      { id: "d", content: "Rome", isCorrect: false },
+    ],
+  },
+  {
+    questionContent: "Which planet is known as the Red Planet?",
+    options: [
+      { id: "a", content: "Mars", isCorrect: true },
+      { id: "b", content: "Venus", isCorrect: false },
+      { id: "c", content: "Jupiter", isCorrect: false },
+      { id: "d", content: "Saturn", isCorrect: false },
+    ],
+  },
+  {
+    questionContent: "What is 2 + 2?",
+    options: [
+      { id: "a", content: "3", isCorrect: false },
+      { id: "b", content: "4", isCorrect: true },
+      { id: "c", content: "5", isCorrect: false },
+      { id: "d", content: "6", isCorrect: false },
+    ],
+  },
+];
+
 export default function ManagementCourses() {
   const [value, setValue] = useState(0);
   const routeParams = useParams();
@@ -60,7 +94,7 @@ export default function ManagementCourses() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
   return (
     <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
       <Typography
@@ -82,18 +116,14 @@ export default function ManagementCourses() {
             aria-label="basic tabs example"
           >
             <Tab label="Users" />
-            <Tab label="Assignment"/>
-            <Tab label="Item Three" />
+            <Tab label="Assignment" />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Item One
+          <CourseStudents />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          Item Three
+          <CourseAssignments questions={questions} timeLimit={60} />
         </CustomTabPanel>
       </Box>
     </Paper>
