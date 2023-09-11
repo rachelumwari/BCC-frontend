@@ -75,11 +75,6 @@ export default function AppDrawer(props) {
   const sideBarIconsBuilder = () => {
     let sideBarIcons = [
       {
-        title: "HOME",
-        icon: <HomeIcon color="secondary" />,
-        links: "/",
-      },
-      {
         title: "PROFILE",
         icon: <PersonIcon color="secondary" />,
         links: "/profile",
@@ -88,11 +83,6 @@ export default function AppDrawer(props) {
         title: "COURSES",
         icon: <LibraryBooksIcon color="secondary" />,
         links: "/courses",
-      },
-      {
-        title: "STUDENT",
-        icon: <GroupsIcon color="secondary" />,
-        links: "/students",
       },
       {
         title: "USERS",
@@ -116,7 +106,7 @@ export default function AppDrawer(props) {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader></DrawerHeader>
 
-        <List>
+        <List sx={{paddingTop:4}}>
           {sideBarIconsBuilder().map((icon, index) => (
             <ListItem
               key={icon.title}

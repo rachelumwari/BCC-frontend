@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogActions,
   Dialog,
+  IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AddCourseForm from "./addCourseForm";
@@ -50,7 +51,7 @@ export default function Courses() {
     if (status === "idle" || status === "done") {
       dispatch(getAllCourses());
     }
-  }, [courses, dispatch, status]);
+  }, [courses]);
 
   const columns = [
     {
@@ -131,15 +132,20 @@ export default function Courses() {
           )}
         </DialogActions>
       </Dialog>
+      <Stack direction="row">
+        <IconButton>
+          
+        </IconButton>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ padding: "15px" }}
+        >
+          COURSES
+        </Typography>
 
-      <Typography
-        gutterBottom
-        variant="h5"
-        component="div"
-        sx={{ padding: "15px" }}
-      >
-        COURSES
-      </Typography>
+      </Stack>
       <Divider sx={{ marginBottom: 1 }} />
       <Box height={40}>
         <Stack direction="row" spacing={2}>
@@ -183,7 +189,7 @@ export default function Courses() {
             rows={courses}
             editFunction={handleCourseEdit}
             deleteFunction={handleDeleteEdit}
-            // linkTo="/users"
+            linkTo="/course"
           />
         </Box>
       )}

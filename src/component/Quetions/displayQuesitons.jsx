@@ -57,9 +57,8 @@ const StudentTestPage = ({ questions, timeLimit }) => {
 
   return (
     <div>
-      <h1>Student Test</h1>
       <div style={{ marginBottom: "1rem" }}>
-        <Typography variant="h6">
+        <Typography variant="h6" color="secondary">
           Time Remaining: {formatTime(timeRemaining)}
         </Typography>
       </div>
@@ -74,7 +73,7 @@ const StudentTestPage = ({ questions, timeLimit }) => {
                 <FormControlLabel
                   key={option.id}
                   value={option.id}
-                  control={<Radio />}
+                  control={<Radio color="secondary"/>}
                   label={`${option.id.toUpperCase()}. ${option.content}`}
                   checked={selectedAnswers[questionIndex] === option.id}
                   onChange={() =>
@@ -86,7 +85,7 @@ const StudentTestPage = ({ questions, timeLimit }) => {
           </CardContent>
         </Card>
       ))}
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button variant="contained" color="secondary" onClick={handleSubmit}>
         Submit Answers
       </Button>
     </div>

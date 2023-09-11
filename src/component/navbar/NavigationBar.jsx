@@ -16,6 +16,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useSelector, useDispatch } from "react-redux";
 import { manageDrawer } from "../../features/navbar/navbarSlice";
+import StyledBadge from "./styledbadge";
+import { Avatar } from "@mui/material";
 
 const AppBar = styled(
   MuiAppBar,
@@ -107,7 +109,7 @@ export default function AppNavBar() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={17} color="secondary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -116,12 +118,22 @@ export default function AppNavBar() {
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
+          edge="end"
           aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
+          aria-controls={menuId}
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            variant="dot"
+          >
+            <Avatar
+              alt="profile pricture"
+              src={`${process.env.PUBLIC_URL}Image/man_profile_Avatar.avif`}
+            />
+          </StyledBadge>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -129,7 +141,7 @@ export default function AppNavBar() {
   );
   return (
     <>
-      <AppBar position="fixed" open={open}>
+      <AppBar color="secondary" position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -140,16 +152,12 @@ export default function AppNavBar() {
               marginRight: 5,
             }}
           >
-            <MenuIcon color="secondary" />
+            <MenuIcon color="primary" />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            BCC
-          </Typography>
+          <Avatar
+            alt="BCC"
+            src={`${process.env.PUBLIC_URL}Image/BCC-Logo-centre.webp`}
+          />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
@@ -161,6 +169,7 @@ export default function AppNavBar() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+
             <IconButton
               size="large"
               edge="end"
@@ -170,7 +179,16 @@ export default function AppNavBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <StyledBadge
+                overlap="circular"
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                variant="dot"
+              >
+                <Avatar
+                  alt="profile pricture"
+                  src={`${process.env.PUBLIC_URL}Image/man_profile_Avatar.avif`}
+                />
+              </StyledBadge>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

@@ -29,18 +29,14 @@ import {
 } from "../../features/users/userSlice";
 import Table from "../../component/Tables/Table";
 import PageLoader from "../../component/Loader/pageLoader";
+import CustomStudentsTable from "../../component/Tables/studentsTable";
 
-export default function CourseStudents() {
+export default function CourseStudents(props) {
+  const { students } = props;
   const dispatch = useDispatch();
-  const { userData, editing, isDialogOpen } = useSelector(
-    (state) => state.users
+  const { status, userData, editing, isDialogOpen } = useSelector(
+    (state) => state.courseDetails
   );
-  const users = useSelector(getUsers);
-  const status = useSelector(getAllUsersStatus);
-
-  useEffect(() => {
-    if (status === "idle" || status === "done") dispatch(getAllUsers());
-  }, [users, dispatch, status]);
 
   const columns = [
     {
@@ -110,7 +106,6 @@ export default function CourseStudents() {
   return (
     <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
       <Dialog open={isDialogOpen}>
-        
         <DialogTitle align="center">ADD STUDENT</DialogTitle>
         <DialogContent>
           <AddUserForm userData={userData} />
@@ -131,55 +126,32 @@ export default function CourseStudents() {
         </DialogActions>
       </Dialog>
 
-      <Typography
-        gutterBottom
-        variant="h5"
-        component="div"
-        sx={{ padding: "15px" }}
-      >
-        STUDENTS
-      </Typography>
-      <Divider sx={{ marginBottom: 1 }} />
-      <Box height={40}>
-        <Stack direction="row" spacing={2}>
-          <Autocomplete
-            disablePortal
-            id="filter-box"
-            options={[]}
-            sx={{ width: 300 }}
-            getOptionLabel={(users) => users.role || ""}
-            renderInput={(params) => (
-              <TextField
-                color="info"
-                {...params}
-                size="small"
-                label="Fielter Users By Role"
-              />
-            )}
-          />
-          <Typography
-            variant="h6"
-            component={"div"}
-            sx={{ flexGrow: 1 }}
-          ></Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            color="secondary"
-            onClick={handleModalOpen}
-          >
-            Add new student
-          </Button>
-        </Stack>
-      </Box>
-      <Divider sx={{ marginTop: 1 }} />
+      <Stack direction="row" spacing={2}>
+        <Typography gutterBottom variant="h5" component="div">
+          STUDENTS
+        </Typography>
+        <Typography
+          variant="h6"
+          component={"div"}
+          sx={{ flexGrow: 1 }}
+        ></Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          color="secondary"
+          onClick={handleModalOpen}
+        >
+          Add new student
+        </Button>
+      </Stack>
+      <Divider sx={{ margin: "8px 0px" }} />
       {status === "loading" ? (
         <PageLoader open={true} />
       ) : (
         <Box>
-          <Table
+          <CustomStudentsTable
             columns={columns}
-            rows={users}
+            rows={students}
             editFunction={handleUserEdit}
             deleteFunction={handleDeleteEdit}
           />

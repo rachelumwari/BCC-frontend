@@ -29,18 +29,17 @@ import {
 } from "../../features/users/userSlice";
 import Table from "../../component/Tables/Table";
 import PageLoader from "../../component/Loader/pageLoader";
+import { useNavigate } from "react-router-dom";
 
-export default function CourseAssignments() {
+export default function CourseAssignments(props) {
+  const { assignments, courseId } = props;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { userData, editing, isDialogOpen } = useSelector(
-    (state) => state.users
+    (state) => state.courseDetails
   );
-  const users = useSelector(getUsers);
-  const status = useSelector(getAllUsersStatus);
 
-  useEffect(() => {
-    if (status === "idle" || status === "done") dispatch(getAllUsers());
-  }, [users, dispatch, status]);
+  const status = useSelector(getAllUsersStatus);
 
   const columns = [
     {
@@ -72,10 +71,6 @@ export default function CourseAssignments() {
     dispatch(updateEditState(false));
   };
 
-  const handleModalOpen = () => {
-    dispatch(updateDialogOpen(true));
-  };
-
   const handleSaveUser = () => {
     dispatch(addNewUser(userData));
   };
@@ -93,6 +88,10 @@ export default function CourseAssignments() {
 
   const handleUpdate = () => {
     dispatch(updateUserById(userData));
+  };
+
+  const handleAddAssigmentClick = () => {
+    navigate(`/create-assignment/${courseId}`)
   };
 
   return (
@@ -117,56 +116,38 @@ export default function CourseAssignments() {
           )}
         </DialogActions>
       </Dialog>
-
-      <Typography
-        gutterBottom
-        variant="h5"
-        component="div"
-        sx={{ padding: "15px" }}
-      >
-        ASSIGNMENTS
-      </Typography>
-      <Divider sx={{ marginBottom: 1 }} />
-      <Box height={40}>
-        <Stack direction="row" spacing={2}>
-          <Autocomplete
-            disablePortal
-            id="filter-box"
-            options={[]}
-            sx={{ width: 300 }}
-            getOptionLabel={(users) => users.role || ""}
-            renderInput={(params) => (
-              <TextField
-                color="info"
-                {...params}
-                size="small"
-                label="Fielter Users By Role"
-              />
-            )}
-          />
-          <Typography
-            variant="h6"
-            component={"div"}
-            sx={{ flexGrow: 1 }}
-          ></Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            color="secondary"
-            onClick={handleModalOpen}
-          >
-            ADD NEW ASSIGNMENT
-          </Button>
-        </Stack>
-      </Box>
-      <Divider sx={{ marginTop: 1 }} />
+      <Stack direction="row">
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          // sx={{ padding: "15px" }}
+        >
+          ASSIGNMENTS
+        </Typography>
+        <Typography
+          variant="h6"
+          component={"div"}
+          sx={{ flexGrow: 1 }}
+        ></Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          color="secondary"
+          onClick={handleAddAssigmentClick}
+        >
+          ADD NEW ASSIGNMENT
+        </Button>
+      </Stack>
+      <Divider sx={{ margin:"8px 0px" }} />
+      
       {status === "loading" ? (
         <PageLoader open={true} />
       ) : (
         <Box>
           <Table
             columns={columns}
-            rows={users}
+            rows={assignments}
             editFunction={handleUserEdit}
             deleteFunction={handleDeleteEdit}
           />

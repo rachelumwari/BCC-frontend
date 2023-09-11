@@ -5,6 +5,9 @@ import Layout from "../component/siderbar/SiderbarDrawer";
 import UserList from "../pages/Users/userList";
 import Courses from "../pages/Courses/courses";
 import ManagementCourses from "../pages/Courses/courseManagementPage";
+import AddAssignment from "../pages/Courses/addAssignment";
+import TakeAssignment from "../pages/Courses/takeAssignment";
+import ProfilePage from "../pages/Profile/ProfilePage";
 
 const AppRoutes = () => {
   return (
@@ -15,6 +18,51 @@ const AppRoutes = () => {
         element={
           <Layout>
             <ManagementCourses />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/profile"
+        element={
+          <Layout>
+            <ProfilePage />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/course/:id"
+        element={
+          <Layout>
+            <ManagementCourses />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/view-assignment/"
+        element={
+          <Layout>
+            <AddAssignment />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/create-assignment/:id"
+        element={
+          <Layout>
+            <AddAssignment />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/take-assigment/"
+        element={
+          <Layout>
+            <TakeAssignment />
           </Layout>
         }
       />

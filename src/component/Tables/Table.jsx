@@ -55,11 +55,6 @@ export default function CustomTable(props) {
                     role="checkbox"
                     tabIndex={-1}
                     key={row.code}
-                    onClick={
-                      linkTo
-                        ? () => navigate(`${linkTo}/${row.id}`)
-                        : navigate(`#`)
-                    }
                   >
                     {columns.map((column) => {
                       if (column.field === "action") {
@@ -87,6 +82,11 @@ export default function CustomTable(props) {
                         <TableCell
                           key={`${column.field}-${index}`}
                           align={column.align ? column.align : "right"}
+                          onClick={
+                            linkTo
+                              ? () => navigate(`${linkTo}/${row.id}`)
+                              : navigate(`#`)
+                          }
                         >
                           {String(row[column.field])}
                         </TableCell>
