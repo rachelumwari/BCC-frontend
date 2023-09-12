@@ -76,7 +76,7 @@ const BibleCertification = () => {
                         With all rights and privileges thereto pertaining in
                         testimony whereof, we have affixed our names and the
                         seal given at Kigali, Rwandaon this 23th day of the
-                        december 2018
+                        december 2022
                       </span>
                     </div>
                     <div class="col-xs-2"></div>

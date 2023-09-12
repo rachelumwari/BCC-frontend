@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { color } from '@mui/system';
 
 
 
@@ -28,7 +29,7 @@ export default function TopnavBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            BCC
           </Typography>
           <Button color='inherit'>Sign up</Button>
           <Button color="inherit">Sign in</Button>
