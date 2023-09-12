@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  openDrawer: true,
+  openDrawer: false,
 };
 
 export const navBarSlice = createSlice({

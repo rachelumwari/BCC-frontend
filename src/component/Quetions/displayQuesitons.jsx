@@ -7,9 +7,15 @@ import {
   FormControlLabel,
   FormLabel,
   Button,
+  Divider,
+  Stack,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { updateAssignmentStatus } from "../../features/userAssignment/userAssignmentSlice";
+import { submitAssignmentQuestionsAnswers } from "../../features/Questions/questionsSlice";
+const StudentTestPage = ({ assignmentId, assignment, questions, timeLimit }) => {
 
-const StudentTestPage = ({ questions, timeLimit }) => {
+  const dispatch = useDispatch()
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array(questions.length).fill("")
   );
@@ -19,7 +25,6 @@ const StudentTestPage = ({ questions, timeLimit }) => {
   useEffect(() => {
     if (timeRemaining <= 0) {
       clearInterval(timerId);
-      // Handle time's up, e.g., submit the answers.
       handleSubmit();
     }
   }, [timeRemaining, timerId]);
@@ -41,12 +46,15 @@ const StudentTestPage = ({ questions, timeLimit }) => {
   const handleOptionChange = (questionIndex, optionIndex) => {
     const updatedAnswers = [...selectedAnswers];
     updatedAnswers[questionIndex] = String.fromCharCode(97 + optionIndex);
+    console.log(updatedAnswers);
     setSelectedAnswers(updatedAnswers);
   };
 
   const handleSubmit = () => {
     // You can handle the submission of answers here, e.g., sending them to the backend.
     console.log("Selected Answers:", selectedAnswers);
+    dispatch(updateAssignmentStatus("idle"));
+    dispatch(submitAssignmentQuestionsAnswers({id:assignmentId, data:selectedAnswers}));
   };
 
   const formatTime = (timeInSeconds) => {
@@ -56,11 +64,23 @@ const StudentTestPage = ({ questions, timeLimit }) => {
   };
 
   return (
-    <div>
+    <>
       <div style={{ marginBottom: "1rem" }}>
-        <Typography variant="h6" color="secondary">
-          Time Remaining: {formatTime(timeRemaining)}
-        </Typography>
+        <Stack direction="row">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ padding: "15px" }}
+          >
+            {`Assignment: ${assignment}`}
+          </Typography>
+          <Typography sx={{ flexGrow:1}}></Typography>
+          <Typography variant="h5" color="secondary" sx={{ padding: "15px" }}>
+            Time Remaining: {formatTime(timeRemaining)}
+          </Typography>
+        </Stack>
+        <Divider sx={{ marginBottom: 1 }} />
       </div>
       {questions.map((question, questionIndex) => (
         <Card key={questionIndex} style={{ marginBottom: "1rem" }}>
@@ -73,9 +93,9 @@ const StudentTestPage = ({ questions, timeLimit }) => {
                 <FormControlLabel
                   key={option.id}
                   value={option.id}
-                  control={<Radio color="secondary"/>}
+                  control={<Radio color="secondary" />}
                   label={`${option.id.toUpperCase()}. ${option.content}`}
-                  checked={selectedAnswers[questionIndex] === option.id}
+                  checked={selectedAnswers[questionIndex] === option.id.toLowerCase()}
                   onChange={() =>
                     handleOptionChange(questionIndex, optionIndex)
                   }
@@ -88,7 +108,7 @@ const StudentTestPage = ({ questions, timeLimit }) => {
       <Button variant="contained" color="secondary" onClick={handleSubmit}>
         Submit Answers
       </Button>
-    </div>
+    </>
   );
 };
 

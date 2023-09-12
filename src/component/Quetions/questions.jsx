@@ -14,18 +14,19 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const CreateQuestionPage = (props) => {
-  const {courseId} = props;
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const { courseId } = props;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [startingTime, setStartTime] = useState("");
   const [questions, setQuestions] = useState([
     {
       questionContent: "",
       options: [
-        { id: "a", content: "", isCorrect: false },
-        { id: "b", content: "", isCorrect: false },
+        { id: "a", content: "" },
+        { id: "b", content: "" },
       ],
+      correctAnswer: "",
     },
   ]);
 
@@ -57,9 +58,8 @@ const CreateQuestionPage = (props) => {
 
   const handleCorrectAnswerChange = (questionIndex, optionIndex) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].options.forEach((option, idx) => {
-      option.isCorrect = idx === optionIndex;
-    });
+    const answer = updatedQuestions[questionIndex].options[optionIndex].id;
+    updatedQuestions[questionIndex].correctAnswer = answer;
     setQuestions(updatedQuestions);
   };
 
@@ -67,9 +67,10 @@ const CreateQuestionPage = (props) => {
     const newQuestion = {
       questionContent: "",
       options: [
-        { id: "a", content: "", isCorrect: false },
-        { id: "b", content: "", isCorrect: false },
+        { id: "a", content: "" },
+        { id: "b", content: "" },
       ],
+      correctAnswer: "",
     };
 
     setQuestions([...questions, newQuestion]);
@@ -89,6 +90,7 @@ const CreateQuestionPage = (props) => {
       startingTime,
       questions,
     };
+    console.log(requestBody);
     dispatch(creatAssignment(requestBody));
     // navigate(`/course/${courseId}`);
   };
@@ -97,7 +99,6 @@ const CreateQuestionPage = (props) => {
     <div>
       {/* <h1>Create Multiple Choice Questions</h1> */}
       <form>
-        
         <TextField
           required
           label="Assignment Title"

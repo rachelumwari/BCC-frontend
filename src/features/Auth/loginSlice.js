@@ -53,6 +53,7 @@ export const authSlice = createSlice({
           state.user = action.payload.data;
           localStorage.setItem("role", action.payload.data.role);
           localStorage.setItem("authToken", action.payload.data.token);
+          localStorage.setItem("name", `${action.payload.data.firstName} ${action.payload.data.lastName}`);
         }else{
           state.status = "failed";
           state.message = action.payload.message;

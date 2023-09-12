@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import {
   Box,
   Divider,
@@ -9,9 +9,10 @@ import {
   Tab,
 } from "@mui/material";
 import Badge from "@mui/material/Badge";
-
-import { useSelector, useDispatch } from "react-redux";
-
+import UserProfilePage from "./profileForm";
+import UserCourses from "./userCourses";
+import UserAssignments from "./userAssignment";
+import { useSearchParams } from "react-router-dom";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -30,15 +31,17 @@ function CustomTabPanel(props) {
 }
 
 export default function ProfilePage() {
-  const [value, setValue] = useState(0);
-  const dispatch = useDispatch();
-
+  const [searchParams] = useSearchParams();
+  const [value, setValue] = useState(
+    searchParams.get("section") ? parseInt(searchParams.get("section")) : 0
+  );
+  const name = localStorage.getItem("name");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
+    <Paper sx={{ width: "100%", overflow: "hidden", padding: "12px" }}>
       <Stack direction="row">
         <Typography
           gutterBottom
@@ -46,7 +49,7 @@ export default function ProfilePage() {
           component="div"
           sx={{ padding: "15px 0px", marginBottom: "0em" }}
         >
-          NIYONKURU BLAISE
+          {name.toUpperCase()}
         </Typography>
       </Stack>
       <Divider sx={{ marginBottom: 1 }} />
@@ -64,7 +67,7 @@ export default function ProfilePage() {
 
             <Tab
               label={
-                <Badge badgeContent={1} color="secondary">
+                <Badge badgeContent={0} color="secondary">
                   ASSIGNEMENTS
                 </Badge>
               }
@@ -72,13 +75,13 @@ export default function ProfilePage() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          PORFILE
+          <UserProfilePage />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          COURSES
+          <UserCourses />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          ASSIGNEMENTS
+          <UserAssignments />
         </CustomTabPanel>
       </Box>
     </Paper>

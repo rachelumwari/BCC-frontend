@@ -59,7 +59,7 @@ const AppRoutes = () => {
       />
       <Route
         exact
-        path="/take-assigment/"
+        path="/take-assigment/:id"
         element={
           <Layout>
             <TakeAssignment />

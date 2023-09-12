@@ -16,7 +16,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (authStatus === "succeeded") {
-      navigate("/");
+      navigate("/profile");
     }
   }, [authStatus, dispatch, navigate]);
   const handleInput = (e) => {
