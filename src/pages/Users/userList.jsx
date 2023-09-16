@@ -85,12 +85,6 @@ export default function UserList() {
       align: "left",
     },
     {
-      field: "status",
-      label: "Active",
-      minWidth: 90,
-      align: "left",
-    },
-    {
       field: "action",
       label: "Action",
       minWidth: 130,
