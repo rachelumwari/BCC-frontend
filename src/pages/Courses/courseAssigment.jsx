@@ -29,17 +29,22 @@ import {
 } from "../../features/users/userSlice";
 import Table from "../../component/Tables/Table";
 import PageLoader from "../../component/Loader/pageLoader";
-import { useNavigate } from "react-router-dom";
+import { getCourseAssignments } from "../../features/courses/courseAssignment";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function CourseAssignments(props) {
-  const { assignments, courseId } = props;
   const dispatch = useDispatch();
+  const routeParams = useParams();
   const navigate = useNavigate();
-  const { userData, editing, isDialogOpen } = useSelector(
-    (state) => state.courseDetails
+  const { assignments, status } = useSelector(
+    (state) => state.courseAssignments
   );
 
-  const status = useSelector(getAllUsersStatus);
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(getCourseAssignments(routeParams.id));
+    }
+  }, [status]);
 
   const columns = [
     {
@@ -67,13 +72,6 @@ export default function CourseAssignments(props) {
       align: "center",
     },
   ];
-  const handleClose = () => {
-    dispatch(updateEditState(false));
-  };
-
-  const handleSaveUser = () => {
-    dispatch(addNewUser(userData));
-  };
 
   const handleUserEdit = (e) => {
     const userId = e.currentTarget.id;
@@ -86,36 +84,13 @@ export default function CourseAssignments(props) {
     dispatch(deleteUserById(userId));
   };
 
-  const handleUpdate = () => {
-    dispatch(updateUserById(userData));
-  };
-
   const handleAddAssigmentClick = () => {
-    navigate(`/create-assignment/${courseId}`)
+    localStorage.setItem("courseAssignmentId", routeParams.id);
+    navigate(`/create-assignment/${routeParams.id}`);
   };
 
   return (
     <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
-      <Dialog open={isDialogOpen}>
-        <DialogTitle align="center">ADD STUDENT</DialogTitle>
-        <DialogContent>
-          <AddCourseForm userData={userData} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} variant="contained" color="secondary">
-            Cancel
-          </Button>
-          {editing ? (
-            <Button onClick={handleUpdate} variant="contained" color="info">
-              Update
-            </Button>
-          ) : (
-            <Button onClick={handleSaveUser} variant="contained" color="info">
-              Save
-            </Button>
-          )}
-        </DialogActions>
-      </Dialog>
       <Stack direction="row">
         <Typography
           gutterBottom
@@ -139,8 +114,8 @@ export default function CourseAssignments(props) {
           ADD NEW ASSIGNMENT
         </Button>
       </Stack>
-      <Divider sx={{ margin:"8px 0px" }} />
-      
+      <Divider sx={{ margin: "8px 0px" }} />
+
       {status === "loading" ? (
         <PageLoader open={true} />
       ) : (

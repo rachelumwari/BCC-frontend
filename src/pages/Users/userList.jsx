@@ -1,11 +1,9 @@
 import { React, useEffect } from "react";
 import {
-  Autocomplete,
   Box,
   Button,
   Divider,
   Stack,
-  TextField,
   Typography,
   Paper,
   DialogTitle,
@@ -29,13 +27,15 @@ import {
 } from "../../features/users/userSlice";
 import Table from "../../component/Tables/Table";
 import PageLoader from "../../component/Loader/pageLoader";
+
 export default function UserList() {
   const dispatch = useDispatch();
+  const users = useSelector(getUsers);
+  const status = useSelector(getAllUsersStatus);
+
   const { userData, editing, isDialogOpen } = useSelector(
     (state) => state.users
   );
-  const users = useSelector(getUsers);
-  const status = useSelector(getAllUsersStatus);
 
   useEffect(() => {
     if (status === "idle" || status === "done") dispatch(getAllUsers());
@@ -45,7 +45,7 @@ export default function UserList() {
     {
       field: "firstName",
       label: "First Name",
-      minWidth: 100,
+      minWidth: 120,
       align: "left",
     },
     {
@@ -97,6 +97,7 @@ export default function UserList() {
       align: "center",
     },
   ];
+
   const handleClose = () => {
     dispatch(updateEditState(false));
   };
@@ -150,49 +151,29 @@ export default function UserList() {
           )}
         </DialogActions>
       </Dialog>
-
-      <Typography
-        gutterBottom
-        variant="h5"
-        component="div"
-        sx={{ padding: "15px" }}
-      >
-        USERS
-      </Typography>
-      <Divider sx={{ marginBottom: 1 }} />
-      <Box height={40}>
-        <Stack direction="row" spacing={2}>
-          <Autocomplete
-            disablePortal
-            id="filter-box"
-            options={[]}
-            sx={{ width: 300 }}
-            getOptionLabel={(users) => users.role || ""}
-            renderInput={(params) => (
-              <TextField
-                color="info"
-                {...params}
-                size="small"
-                label="Fielter Users By Role"
-              />
-            )}
-          />
-          <Typography
-            variant="h6"
-            component={"div"}
-            sx={{ flexGrow: 1 }}
-          ></Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            color="secondary"
-            onClick={handleModalOpen}
-          >
-            Add new user
-          </Button>
-        </Stack>
-      </Box>
-      <Divider sx={{ marginTop: 1 }} />
+      <Stack direction="row" spacing={2} sx={{ marginTop: 3 }}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+        >
+          USERS
+        </Typography>
+        <Typography
+          variant="h6"
+          component={"div"}
+          sx={{ flexGrow: 1 }}
+        ></Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          color="secondary"
+          onClick={handleModalOpen}
+        >
+          Add new user
+        </Button>
+      </Stack>
+      <Divider sx={{ marginTop: 2 }} />
       {status === "loading" ? (
         <PageLoader open={true} />
       ) : (

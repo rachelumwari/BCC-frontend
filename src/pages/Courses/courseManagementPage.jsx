@@ -1,34 +1,19 @@
 import { React, useEffect, useState } from "react";
 import {
-  Autocomplete,
   Box,
-  Button,
   Divider,
   Stack,
-  TextField,
   Typography,
   Paper,
   Tabs,
   Tab,
   IconButton,
 } from "@mui/material";
-
-import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  addCourse,
-  deleteCourse,
-  updateCourse,
-  updateCourseData,
-  initialState,
-  getCourseDetails,
-} from "../../features/courses/courseSlice";
-import Table from "../../component/Tables/Table";
-import CreateQuestionPage from "../../component/Quetions/questions";
-import StudentTestPage from "../../component/Quetions/displayQuesitons";
+import { getCourseDetails } from "../../features/courses/courseDetailsSlice";
 import CourseStudents from "../Students/courseStudent";
 import CourseAssignments from "./courseAssigment";
 import { useNavigate } from "react-router-dom";
@@ -49,16 +34,12 @@ function CustomTabPanel(props) {
 }
 
 export default function ManagementCourses() {
-  const [value, setValue] = useState(0);
-  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const [value, setValue] = useState(
+    searchParams.get("section") ? parseInt(searchParams.get("section")) : 0
+  );
   const navigate = useNavigate();
-  const routeParams = useParams();
-  const { status, courseDetails } = useSelector((state) => state.courseDetails);
-
-  useEffect(() => {
-    if (status === "idle" || status === "done")
-      dispatch(getCourseDetails(routeParams.id));
-  }, [courseDetails]);
+  const courseName = localStorage.getItem("courseName");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -74,9 +55,9 @@ export default function ManagementCourses() {
           gutterBottom
           variant="h5"
           component="div"
-          sx={{ padding: "15px 0px", marginBottom:"0em" }}
+          sx={{ padding: "15px 0px", marginBottom: "0em" }}
         >
-          COURSES
+          {`COURSE: ${courseName}`}
         </Typography>
       </Stack>
       <Divider sx={{ marginBottom: 1 }} />
@@ -94,13 +75,10 @@ export default function ManagementCourses() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <CourseStudents students={courseDetails.students} />
+          <CourseStudents />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <CourseAssignments
-            assignments={courseDetails.assignments}
-            courseId={routeParams.id}
-          />
+          <CourseAssignments />
         </CustomTabPanel>
       </Box>
     </Paper>

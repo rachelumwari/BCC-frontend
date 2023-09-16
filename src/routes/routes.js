@@ -8,6 +8,7 @@ import ManagementCourses from "../pages/Courses/courseManagementPage";
 import AddAssignment from "../pages/Courses/addAssignment";
 import TakeAssignment from "../pages/Courses/takeAssignment";
 import ProfilePage from "../pages/Profile/ProfilePage";
+import Dashboard from "../pages/AdminDashboard/dashboard";
 
 const AppRoutes = () => {
   return (
@@ -84,7 +85,16 @@ const AppRoutes = () => {
           </Layout>
         }
       />
-      <Route exact path="/l" element={<SignIn />} />
+      <Route
+        exact
+        path="/dashboard"
+        element={
+          <Layout>
+            <Dashboard />
+          </Layout>
+        }
+      />
+      <Route exact path="/auth" element={<SignIn />} />
     </Routes>
   );
 };

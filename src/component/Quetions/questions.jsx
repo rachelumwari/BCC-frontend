@@ -7,16 +7,13 @@ import {
   FormControlLabel,
   FormLabel,
   Button,
-  InputLabel,
 } from "@mui/material";
 import { creatAssignment } from "../../features/Assignment/assignmentSlice";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const CreateQuestionPage = (props) => {
   const { courseId } = props;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [startingTime, setStartTime] = useState("");
   const [questions, setQuestions] = useState([
@@ -37,14 +34,13 @@ const CreateQuestionPage = (props) => {
     setStartTime(e.target.value);
   };
   const handleAddOption = (questionIndex) => {
-    if (questions[questionIndex].options.length < 4) {
+    if (questions[questionIndex].options.length < 5) {
       const updatedQuestions = [...questions];
       updatedQuestions[questionIndex].options.push({
         id: String.fromCharCode(
           97 + updatedQuestions[questionIndex].options.length
         ),
         content: "",
-        isCorrect: false,
       });
       setQuestions(updatedQuestions);
     }
@@ -90,14 +86,11 @@ const CreateQuestionPage = (props) => {
       startingTime,
       questions,
     };
-    console.log(requestBody);
     dispatch(creatAssignment(requestBody));
-    // navigate(`/course/${courseId}`);
   };
 
   return (
     <div>
-      {/* <h1>Create Multiple Choice Questions</h1> */}
       <form>
         <TextField
           required
@@ -145,11 +138,11 @@ const CreateQuestionPage = (props) => {
                     value={option.content}
                     control={
                       <Radio
-                        checked={option.isCorrect}
+                        checked={question.correctAnswer === option.id}
                         onChange={() =>
                           handleCorrectAnswerChange(questionIndex, optionIndex)
                         }
-                        color="info"
+                        color="secondary"
                       />
                     }
                     label={
@@ -174,7 +167,6 @@ const CreateQuestionPage = (props) => {
             </FormControl>
             <Button
               variant="contained"
-              // color="primary"
               color="secondary"
               onClick={() => handleAddOption(questionIndex)}
               style={{ marginTop: "1rem" }}

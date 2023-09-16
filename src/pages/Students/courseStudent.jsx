@@ -1,43 +1,46 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import {
-  Autocomplete,
   Box,
   Button,
   Divider,
   Stack,
-  TextField,
   Typography,
   Paper,
   DialogTitle,
   DialogContent,
   DialogActions,
   Dialog,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import AddUserForm from "./addStudentForm";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  getUsers,
-  getAllUsers,
-  getAllUsersStatus,
-  updateEditState,
-  getUserById,
-  deleteUserById,
-  updateUserById,
-  addNewUser,
-  updateDialogOpen,
-} from "../../features/users/userSlice";
-import Table from "../../component/Tables/Table";
 import PageLoader from "../../component/Loader/pageLoader";
 import CustomStudentsTable from "../../component/Tables/studentsTable";
+import {
+  getCourseStudents,
+  removeStudentCourse,
+  addStudentToCourse,
+  updateModelOpen,
+} from "../../features/courses/courseStudent";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function CourseStudents(props) {
-  const { students } = props;
+export default function CourseStudents() {
   const dispatch = useDispatch();
-  const { status, userData, editing, isDialogOpen } = useSelector(
-    (state) => state.courseDetails
+  const routeParams = useParams();
+  const [studentId, setStudentId] = useState("");
+  const { status, students, users, modelOpen } = useSelector(
+    (state) => state.courseStudents
   );
 
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(getCourseStudents(routeParams.id));
+    }
+  }, [status, students, modelOpen]);
+  
   const columns = [
     {
       field: "firstName",
@@ -73,56 +76,64 @@ export default function CourseStudents(props) {
       field: "action",
       label: "Action",
       minWidth: 130,
-      align: "center",
+      align: "left",
     },
   ];
+
   const handleClose = () => {
-    dispatch(updateEditState(false));
+    dispatch(updateModelOpen(false));
   };
 
   const handleModalOpen = () => {
-    dispatch(updateDialogOpen(true));
+    dispatch(updateModelOpen(true))
   };
 
   const handleSaveUser = () => {
-    dispatch(addNewUser(userData));
-  };
-
-  const handleUserEdit = (e) => {
-    const userId = e.currentTarget.id;
-    localStorage.setItem("userUpdateId", userId);
-    dispatch(getUserById(userId));
+    dispatch(addStudentToCourse({ id: routeParams.id, userId: studentId }));
   };
 
   const handleDeleteEdit = (e) => {
     const userId = e.currentTarget.id;
-    dispatch(deleteUserById(userId));
+    dispatch(removeStudentCourse({ id: routeParams.id, userId }));
   };
 
-  const handleUpdate = () => {
-    dispatch(updateUserById(userData));
+  const handleUserChange = (e) => {
+    const userId = e.target.value;
+    setStudentId(userId);
   };
 
   return (
     <Paper sx={{ width: "98%", overflow: "hidden", padding: "12px" }}>
-      <Dialog open={isDialogOpen}>
-        <DialogTitle align="center">ADD STUDENT</DialogTitle>
+      <Dialog open={modelOpen}>
+        <DialogTitle align="center">ADD STUDENT TO COURSE</DialogTitle>
         <DialogContent>
-          <AddUserForm userData={userData} />
+          <FormControl style={{ width: "100%", marginTop: "20px" }}>
+            <InputLabel color="info" htmlFor="student">
+              Student
+            </InputLabel>
+            <Select
+              fullWidth
+              id="student"
+              onChange={handleUserChange}
+              value={studentId}
+              label="Student"
+              color="info"
+            >
+              {users.map((user, index) => (
+                <MenuItem value={user.id} key={index}>
+                  {user.firstName + " " + user.lastName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="contained" color="secondary">
             Cancel
           </Button>
-          {editing ? (
-            <Button onClick={handleUpdate} variant="contained" color="info">
-              Update
-            </Button>
-          ) : (
-            <Button onClick={handleSaveUser} variant="contained" color="info">
-              Save
-            </Button>
-          )}
+          <Button onClick={handleSaveUser} variant="contained" color="info">
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -152,7 +163,6 @@ export default function CourseStudents(props) {
           <CustomStudentsTable
             columns={columns}
             rows={students}
-            editFunction={handleUserEdit}
             deleteFunction={handleDeleteEdit}
           />
         </Box>

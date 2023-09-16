@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const BASE_URL = `${process.env.REACT_APP_BACKEND_URL}management/course/`;
+const BASE_URL = `${process.env.REACT_APP_BACKEND_URL}courses/`;
 
 export const getCourseDetails = createAsyncThunk(
   "getCourseDetails",
   async (id) => {
-    console.log(BASE_URL);
     const response = await fetch(`${BASE_URL}${id}`, {
       method: "GET",
       headers: {
@@ -20,12 +19,8 @@ export const getCourseDetails = createAsyncThunk(
 export const initialState = {
   courseDetails: {
     id: "",
-    courseName: "",
-    students: [],
-    assignments: [],
+    courseName: ""
   },
-  isDialogOpen: false,
-  editing: false,
   message: "",
   status: "idle",
   error: null,
@@ -35,14 +30,8 @@ export const courseDetailsSlice = createSlice({
   name: "courseDetails",
   initialState,
   reducers: {
-    updateEditState: (state, action) => {
-      state.editing = action.payload;
-      state.isDialogOpen = action.payload;
-      state.userData = initialState.userData;
-    },
-    updateDialogOpen: (state, action) => {
-      state.isDialogOpen = action.payload;
-      state.userData = initialState.userData;
+    updateStatusOpen: (state, action) => {
+      state.status = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -67,6 +56,6 @@ export const courseDetailsSlice = createSlice({
   },
 });
 
-export const { updateEditState, updateDialogOpen } = courseDetailsSlice.actions;
+export const { updateStatusOpen} = courseDetailsSlice.actions;
 
 export default courseDetailsSlice.reducer;

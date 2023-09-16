@@ -13,7 +13,6 @@ export const creatAssignment = createAsyncThunk(
       },
       body: JSON.stringify(data),
     });
-    console.log(response.json());
     return response.json();
   }
 );
@@ -45,15 +44,20 @@ export const assignmentSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(creatAssignment.fulfilled, (state, action) => {
-      if (action.payload.status === 200) {
+      console.log(action.payload);
+      if (action.payload.status === 201) {
         state.status = "succeeded";
         state.message = action.payload.message;
+        const courseId = localStorage.getItem("courseAssignmentId")
+        localStorage.removeItem("courseAssignmentId");
+        window.location.href = `/course/${courseId}?section=1`;
       } else {
         state.status = "failed";
         state.message = action.payload.message;
       }
     });
     builder.addCase(creatAssignment.rejected, (state, action) => {
+      console.log("error");
       state.status = "failed";
       state.error = action.error.message;
     });

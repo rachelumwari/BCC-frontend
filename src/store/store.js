@@ -10,6 +10,10 @@ import profileSlice from "../features/profile/profileSlice";
 import userCoursesSlice from "../features/userCourses/userCoursesSlice";
 import userAssignmentsSlice  from "../features/userAssignment/userAssignmentSlice";
 import assignmentQuestionsSlice from "../features/Questions/questionsSlice";
+import courseStudentSlice from "../features/courses/courseStudent";
+import courseAssignmentsSlice from "../features/courses/courseAssignment";
+import adminSlice from "../features/Dashboard/dashboardSlice";
+
 export const store = configureStore({
   reducer: {
     navbar: navbarReducer,
@@ -23,5 +27,8 @@ export const store = configureStore({
     userCourses: userCoursesSlice,
     userAssignments: userAssignmentsSlice,
     assignmentQuestions: assignmentQuestionsSlice,
+    courseStudents: courseStudentSlice,
+    courseAssignments: courseAssignmentsSlice,
+    dashboard: adminSlice,
   },
 });

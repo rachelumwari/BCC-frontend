@@ -1,18 +1,15 @@
 import { React, useEffect } from "react";
 import {
-  Autocomplete,
   Box,
   Button,
   Divider,
   Stack,
-  TextField,
   Typography,
   Paper,
   DialogTitle,
   DialogContent,
   DialogActions,
   Dialog,
-  IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AddCourseForm from "./addCourseForm";
@@ -29,8 +26,10 @@ import {
 } from "../../features/courses/courseSlice";
 import Table from "../../component/Tables/Table";
 import PageLoader from "../../component/Loader/pageLoader";
+import { updateStatus } from "../../features/courses/courseStudent";
 
 export default function Courses() {
+  const userRole = localStorage.getItem("role")
   const dispatch = useDispatch();
   const { courseData, status, editing, isDialogOpen } = useSelector(
     (state) => state.courses
@@ -50,8 +49,9 @@ export default function Courses() {
   useEffect(() => {
     if (status === "idle" || status === "done") {
       dispatch(getAllCourses());
+      dispatch(updateStatus("idle"));
     }
-  }, [courses]);
+  }, [courses, status]);
 
   const columns = [
     {
@@ -80,6 +80,7 @@ export default function Courses() {
     },
   ];
 
+  const teacheColumms = columns.slice(0,2)
   const handleClose = () => {
     dispatch(updateEditState(false));
   };
@@ -132,43 +133,16 @@ export default function Courses() {
           )}
         </DialogActions>
       </Dialog>
-      <Stack direction="row">
-        <IconButton>
-          
-        </IconButton>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-          sx={{ padding: "15px" }}
-        >
+      <Stack direction="row" sx={{ marginTop: 2 }}>
+        <Typography gutterBottom variant="h5" component="div">
           COURSES
         </Typography>
-
-      </Stack>
-      <Divider sx={{ marginBottom: 1 }} />
-      <Box height={40}>
-        <Stack direction="row" spacing={2}>
-          <Autocomplete
-            disablePortal
-            id="filter-box"
-            options={[]}
-            sx={{ width: 300 }}
-            getOptionLabel={(users) => users.role || ""}
-            renderInput={(params) => (
-              <TextField
-                color="info"
-                {...params}
-                size="small"
-                label="Fielter Course"
-              />
-            )}
-          />
-          <Typography
-            variant="h6"
-            component={"div"}
-            sx={{ flexGrow: 1 }}
-          ></Typography>
+        <Typography
+          variant="h6"
+          component={"div"}
+          sx={{ flexGrow: 1 }}
+        ></Typography>
+        {userRole === "Admin" ? (
           <Button
             variant="contained"
             startIcon={<AddIcon />}
@@ -177,20 +151,33 @@ export default function Courses() {
           >
             Add course
           </Button>
-        </Stack>
-      </Box>
-      <Divider sx={{ marginTop: 1 }} />
+        ) : (
+          <></>
+        )}
+      </Stack>
+      <Divider sx={{ marginTop: 2 }} />
+
       {status === "loading" ? (
         <PageLoader open={true} />
       ) : (
         <Box>
-          <Table
-            columns={columns}
-            rows={courses}
-            editFunction={handleCourseEdit}
-            deleteFunction={handleDeleteEdit}
-            linkTo="/course"
-          />
+          {userRole === "Admin" ? (
+            <Table
+              columns={columns}
+              rows={courses}
+              editFunction={handleCourseEdit}
+              deleteFunction={handleDeleteEdit}
+              linkTo="/course"
+            />
+          ) : (
+            <Table
+              columns={teacheColumms}
+              rows={courses}
+              editFunction={handleCourseEdit}
+              deleteFunction={handleDeleteEdit}
+              linkTo="/course"
+            />
+          )}
         </Box>
       )}
     </Paper>

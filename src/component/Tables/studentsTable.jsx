@@ -11,13 +11,11 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router-dom";
 
 export default function CustomStudentsTable(props) {
-  const { columns, rows, deleteFunction, linkTo } = props;
+  const { columns, rows, deleteFunction } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  let navigate = useNavigate();
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
   };
@@ -54,11 +52,6 @@ export default function CustomStudentsTable(props) {
                     role="checkbox"
                     tabIndex={-1}
                     key={row.code}
-                    onClick={
-                      linkTo
-                        ? () => navigate(`${linkTo}/${row.id}`)
-                        : navigate(`#`)
-                    }
                   >
                     {columns.map((column) => {
                       if (column.field === "action") {

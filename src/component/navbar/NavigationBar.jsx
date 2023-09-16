@@ -4,20 +4,16 @@ import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useSelector, useDispatch } from "react-redux";
 import { manageDrawer } from "../../features/navbar/navbarSlice";
 import StyledBadge from "./styledbadge";
 import { Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const AppBar = styled(
   MuiAppBar,
@@ -29,6 +25,7 @@ const AppBar = styled(
 export default function AppNavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   let open = useSelector((state) => state.navbar.openDrawer);
 
@@ -55,6 +52,15 @@ export default function AppNavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {
+    localStorage.setItem("role", "");
+    localStorage.setItem("authToken", "");
+    localStorage.setItem("name", "");
+    localStorage.setItem("courseUpdateId", "");
+    localStorage.setItem("userUpdateId", "");
+    window.location.href = "/auth";
+  };
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -71,13 +77,7 @@ export default function AppNavBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton size="large" aria-label="show profile icon" color="inherit">
-          <PersonIcon />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={handleLogout}>
         <IconButton size="large" aria-label="show profile icon" color="inherit">
           <LogoutIcon />
         </IconButton>
@@ -103,18 +103,6 @@ export default function AppNavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -160,16 +148,6 @@ export default function AppNavBar() {
           />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-
             <IconButton
               size="large"
               edge="end"

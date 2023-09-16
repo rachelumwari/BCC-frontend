@@ -72,17 +72,6 @@ export const addCourseUser = createAsyncThunk("addCourseUser", async (data) => {
   return response.json();
 });
 
-export const getCourseDetails = createAsyncThunk("getCourseDetails", async (id) => {
-  console.log(COURSE_BASE_URL);
-  const response = await fetch(`${COURSE_BASE_URL}${id}`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    }
-  });
-  return response.json();
-});
 
 export const initialState = {
   courses: [],
@@ -95,12 +84,6 @@ export const initialState = {
       lastName: "",
     },
     studentCount: 0,
-  },
-  courseDetails:{
-    id:"",
-    courseName:"",
-    students:[],
-    assignments:[]
   },
   isDialogOpen: false,
   editing: false,
@@ -115,7 +98,10 @@ export const courseSlice = createSlice({
   reducers: {
     updateCourseData: (state, action) => {
       const courseData = action.payload;
-      console.log();
+      state.courseData = courseData;
+    },
+    updateCourseData: (state, action) => {
+      const courseData = action.payload;
       state.courseData = courseData;
     },
     addCourse: (state, action) => {
@@ -232,7 +218,7 @@ export const courseSlice = createSlice({
 
     builder.addCase(deleteCourseById.fulfilled, (state, action) => {
       if (action.payload.status === 200) {
-        state.status = "done";
+        state.status = "idle";
         state.message = action.payload.message;
       } else {
         state.status = "failed";
@@ -240,25 +226,6 @@ export const courseSlice = createSlice({
       }
     });
     builder.addCase(deleteCourseById.rejected, (state, action) => {
-      state.status = "failed";
-      state.error = action.error.message;
-    });
-
-    // Add get course details data
-    builder.addCase(getCourseDetails.pending, (state) => {
-      state.status = "loading";
-    });
-    builder.addCase(getCourseDetails.fulfilled, (state, action) => {
-      if (action.payload.status === 200) {
-        state.status = "succeeded";
-        state.message = action.payload.message;
-        state.courseDetails = action.payload.data;
-      } else {
-        state.status = "failed";
-        state.message = action.payload.message;
-      }
-    });
-    builder.addCase(getCourseDetails.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     });

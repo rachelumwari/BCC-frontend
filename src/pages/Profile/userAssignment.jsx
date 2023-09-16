@@ -38,7 +38,7 @@ export default function UserAssignments() {
     },
     {
       field: "startingTime",
-      label: "Time",
+      label: "Due Time",
       minWidth: 130,
       align: "left",
     },

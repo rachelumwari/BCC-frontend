@@ -8,17 +8,15 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import HomeIcon from "@mui/icons-material/Home";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PersonIcon from "@mui/icons-material/Person";
 import PeopleIcon from "@mui/icons-material/People";
-import GroupsIcon from "@mui/icons-material/Groups";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import AppBar from "../navbar/NavigationBar";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const drawerWidth = 170;
+const drawerWidth = 190;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -73,28 +71,37 @@ export default function AppDrawer(props) {
   let open = useSelector((state) => state.navbar.openDrawer);
   let navigate = useNavigate();
   const sideBarIconsBuilder = () => {
+    const role = localStorage.getItem("role");
     let sideBarIcons = [
       {
         title: "PROFILE",
         icon: <PersonIcon color="secondary" />,
         links: "/profile",
       },
-      {
+    ];
+    if (role === "Teacher") {
+      sideBarIcons.push({
         title: "COURSES",
         icon: <LibraryBooksIcon color="secondary" />,
         links: "/courses",
-      },
-      {
+      });
+    } else if (role === "Admin") {
+      sideBarIcons.push({
+        title: "COURSES",
+        icon: <LibraryBooksIcon color="secondary" />,
+        links: "/courses",
+      });
+      sideBarIcons.push({
         title: "USERS",
         icon: <PeopleIcon color="secondary" />,
         links: "/users",
-      },
-      {
-        title: "ANALITICS",
+      });
+      sideBarIcons.push({
+        title: "DASHBOARD",
         icon: <AnalyticsIcon color="secondary" />,
-        links: "/statistics",
-      },
-    ];
+        links: "/dashboard",
+      });
+    }
     return sideBarIcons;
   };
 
@@ -106,7 +113,7 @@ export default function AppDrawer(props) {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader></DrawerHeader>
 
-        <List sx={{paddingTop:4}}>
+        <List sx={{ paddingTop: 4 }}>
           {sideBarIconsBuilder().map((icon, index) => (
             <ListItem
               key={icon.title}

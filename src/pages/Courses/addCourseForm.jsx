@@ -48,6 +48,7 @@ export default function AddCourseForm() {
           Teacher
         </InputLabel>
         <Select
+          fullWidth
           labelId="course-teacher-simple-select-outlined-label"
           id="course-teacher-simple-select-outlined"
           onChange={handleTeacherChange}
