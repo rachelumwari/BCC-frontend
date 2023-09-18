@@ -9,6 +9,8 @@ import AddAssignment from "../pages/Courses/addAssignment";
 import TakeAssignment from "../pages/Courses/takeAssignment";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import Dashboard from "../pages/AdminDashboard/dashboard";
+import BibleCertification from "../pages/userList/BibleCertification";
+import Certificate from "../pages/userList/Ceritificate"
 
 const AppRoutes = () => {
   return (
@@ -91,6 +93,15 @@ const AppRoutes = () => {
         element={
           <Layout>
             <Dashboard />
+          </Layout>
+        }
+      />
+      <Route
+        exact
+        path="/certificate"
+        element={
+          <Layout>
+            <BibleCertification />
           </Layout>
         }
       />

@@ -146,11 +146,7 @@ export default function UserList() {
         </DialogActions>
       </Dialog>
       <Stack direction="row" spacing={2} sx={{ marginTop: 3 }}>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-        >
+        <Typography gutterBottom variant="h5" component="div">
           USERS
         </Typography>
         <Typography
@@ -177,6 +173,7 @@ export default function UserList() {
             rows={users}
             editFunction={handleUserEdit}
             deleteFunction={handleDeleteEdit}
+            certificate
           />
         </Box>
       )}

@@ -12,13 +12,14 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import { useNavigate } from "react-router-dom";
 import { updateStatus } from "../../features/courses/courseStudent";
 import { useDispatch } from "react-redux";
 import { updateAssignmentStatus } from "../../features/courses/courseAssignment";
 
 export default function CustomTable(props) {
-  const { columns, rows, editFunction, deleteFunction, linkTo } = props;
+  const { columns, rows, editFunction, deleteFunction, linkTo, certificate } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const navigate = useNavigate();
@@ -80,6 +81,19 @@ export default function CustomTable(props) {
                               >
                                 <EditIcon color="info" />
                               </IconButton>
+                              {certificate ? (
+                                <IconButton
+                                  id={row.id}
+                                  onClick={()=>{ 
+                                    localStorage.setItem("certificateName",`${row.firstName} ${row.lastName}`)
+                                    navigate("/certificate");
+                                  }}
+                                >
+                                  <CardMembershipIcon color="secondary" />
+                                </IconButton>
+                              ) : (
+                                <></>
+                              )}
                               <IconButton id={row.id} onClick={deleteFunction}>
                                 <DeleteIcon color="secondary" />
                               </IconButton>
